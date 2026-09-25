@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+    font-family: "Figtree", system-ui, sans-serif;
+    color: #f5f7fb;
+    background-color: #0a1728;
+}
+
+html,
+body,
+#root {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-y: auto;
+    background:
+        linear-gradient(rgba(8, 18, 32, 0.52), rgba(8, 18, 32, 0.74)),
+        url("/2202_w023_n001_1896b_p1_1896.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid rgba(247, 183, 51, 0.9);
+    outline-offset: 3px;
+}
