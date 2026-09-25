@@ -13,6 +13,8 @@ const MESSAGES = {
 };
 const SERVER_ERR =
   "Can't reach the server. Check that npm run dev is running and MongoDB is connected.";
+const API_BASE = import.meta.env.VITE_API_URL || "";
+const api = (path) => `${API_BASE}${path}`;
 
 export default function App() {
   const [name, setName] = useState(
@@ -26,14 +28,14 @@ export default function App() {
   const [error, setError] = useState("");
 
   const loadBoard = () =>
-    fetch("/api/leaderboard")
+    fetch(api("/api/leaderboard"))
       .then((r) => r.json())
       .then(setBoard)
       .catch(() => {});
 
   useEffect(() => {
     if (!name) return;
-    fetch(`/api/players/${encodeURIComponent(name)}`)
+    fetch(api(`/api/players/${encodeURIComponent(name)}`))
       .then((r) => r.json())
       .then(setStats)
       .catch(() => setError(SERVER_ERR));
@@ -64,7 +66,7 @@ export default function App() {
     setBusy(true);
     setError("");
     try {
-      const res = await fetch("/api/play", {
+      const res = await fetch(api("/api/play"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, choice }),
@@ -82,9 +84,12 @@ export default function App() {
   }
 
   async function reset() {
-    const res = await fetch(`/api/players/${encodeURIComponent(name)}/reset`, {
-      method: "POST",
-    });
+    const res = await fetch(
+      api(`/api/players/${encodeURIComponent(name)}/reset`),
+      {
+        method: "POST",
+      },
+    );
     setStats(await res.json());
     setRound(null);
     loadBoard();
